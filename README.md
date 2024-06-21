@@ -1,8 +1,10 @@
+Sure, here's an updated README file that includes information about the Twilio account and its usage in the project.
+
 # Accident Detection using Deep Learning (CNN)
 
 ## Overview
 
-This project is an implementation of an accident detection system using Convolutional Neural Networks (CNN). The system aims to detect accidents from images or video frames, leveraging the power of deep learning to identify and classify incidents accurately.
+This project is an implementation of an accident detection system using Convolutional Neural Networks (CNN). The system aims to detect accidents from images or video frames, leveraging the power of deep learning to identify and classify incidents accurately. Additionally, the project uses Twilio's API to send notifications when an accident is detected.
 
 ## Table of Contents
 1. [Introduction](#introduction)
@@ -13,9 +15,10 @@ This project is an implementation of an accident detection system using Convolut
 6. [Training the Model](#training-the-model)
 7. [Evaluation](#evaluation)
 8. [Usage](#usage)
-9. [Results](#results)
-10. [Contributing](#contributing)
-11. [License](#license)
+9. [Twilio Integration](#twilio-integration)
+10. [Results](#results)
+11. [Contributing](#contributing)
+12. [License](#license)
 
 ## Introduction
 
@@ -25,6 +28,7 @@ Accident detection systems are crucial in improving emergency response times and
 
 - **Automatic Detection**: Detect accidents in real-time from video frames or static images.
 - **High Accuracy**: Utilizes a CNN for high-accuracy detection.
+- **Notification System**: Integrates with Twilio to send SMS notifications when an accident is detected.
 - **Scalable**: Can be integrated into various applications, including traffic monitoring systems and vehicle safety mechanisms.
 
 ## Installation
@@ -37,6 +41,7 @@ Accident detection systems are crucial in improving emergency response times and
 - NumPy
 - Matplotlib
 - scikit-learn
+- Twilio
 
 ### Setup
 
@@ -110,7 +115,67 @@ To use the trained model for accident detection on new images or video frames:
    python detect.py --video_path path_to_video
    ```
 
+## Twilio Integration
+
+Twilio is used in this project to send SMS notifications when an accident is detected. You will need a Twilio account to use this feature. Follow these steps to set up Twilio integration:
+
+1. **Sign Up for Twilio**: Create an account on the [Twilio website](https://www.twilio.com/).
+
+2. **Get Your Twilio Credentials**: Obtain your Account SID, Auth Token, and phone number from the Twilio Console.
+
+3. **Set Up Environment Variables**: Store your Twilio credentials in environment variables to keep them secure.
+    - **Linux/macOS**:
+      ```bash
+      export TWILIO_ACCOUNT_SID='your_twilio_account_sid'
+      export TWILIO_AUTH_TOKEN='your_twilio_auth_token'
+      export TWILIO_PHONE_NUMBER='your_twilio_phone_number'
+      ```
+    - **Windows**:
+      ```bash
+      set TWILIO_ACCOUNT_SID='your_twilio_account_sid'
+      set TWILIO_AUTH_TOKEN='your_twilio_auth_token'
+      set TWILIO_PHONE_NUMBER='your_twilio_phone_number'
+      ```
+
+    Alternatively, use a `.env` file:
+    ```plaintext
+    TWILIO_ACCOUNT_SID=your_twilio_account_sid
+    TWILIO_AUTH_TOKEN=your_twilio_auth_token
+    TWILIO_PHONE_NUMBER=your_twilio_phone_number
+    ```
+
+4. **Load Environment Variables in Your Code**:
+    ```python
+    from dotenv import load_dotenv
+    import os
+    from twilio.rest import Client
+
+    load_dotenv()
+
+    TWILIO_ACCOUNT_SID = os.getenv('TWILIO_ACCOUNT_SID')
+    TWILIO_AUTH_TOKEN = os.getenv('TWILIO_AUTH_TOKEN')
+    TWILIO_PHONE_NUMBER = os.getenv('TWILIO_PHONE_NUMBER')
+
+    client = Client(TWILIO_ACCOUNT_SID, TWILIO_AUTH_TOKEN)
+
+    def send_sms_notification(to, message):
+        client.messages.create(body=message, from_=TWILIO_PHONE_NUMBER, to=to)
+    ```
+
+5. **Send Notifications**: Use the `send_sms_notification` function to send SMS alerts when an accident is detected.
+    ```python
+    # Example usage
+    if accident_detected:
+        send_sms_notification('+1234567890', 'Accident detected!')
+    ```
+
 ## Results
 
 The results of the accident detection model will be displayed, indicating whether an accident is detected in the given image or video frame. Performance metrics such as accuracy, precision, recall, and F1-score will also be provided.
 
+
+---
+
+For any questions or issues, please open an issue on GitHub or contact the project maintainer.
+
+Happy coding!
