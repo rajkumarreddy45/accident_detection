@@ -1,4 +1,4 @@
-Sure, here's an updated README file that includes information about the Twilio account and its usage in the project.
+
 
 # Accident Detection using Deep Learning (CNN)
 
